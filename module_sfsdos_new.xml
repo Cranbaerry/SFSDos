@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_sfsdos_new" default="compile.module.sfsdos_new">
+  <dirname property="module.sfsdos_new.basedir" file="${ant.file.module_sfsdos_new}"/>
+  
+  <property name="module.jdk.home.sfsdos_new" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.sfsdos_new" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.sfsdos_new" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.sfsdos_new" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="sfsdos_new.output.dir" value="${module.sfsdos_new.basedir}/out/production/SFSDos_New"/>
+  <property name="sfsdos_new.testoutput.dir" value="${module.sfsdos_new.basedir}/out/test/SFSDos_New"/>
+  
+  <path id="sfsdos_new.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="sfsdos_new.module.production.classpath">
+    <path refid="${module.jdk.classpath.sfsdos_new}"/>
+    <path refid="library.commons-lang3-3.8.1.classpath"/>
+  </path>
+  
+  <path id="sfsdos_new.runtime.production.module.classpath">
+    <pathelement location="${sfsdos_new.output.dir}"/>
+    <path refid="library.commons-lang3-3.8.1.classpath"/>
+  </path>
+  
+  <path id="sfsdos_new.module.classpath">
+    <path refid="${module.jdk.classpath.sfsdos_new}"/>
+    <pathelement location="${sfsdos_new.output.dir}"/>
+    <path refid="library.commons-lang3-3.8.1.classpath"/>
+  </path>
+  
+  <path id="sfsdos_new.runtime.module.classpath">
+    <pathelement location="${sfsdos_new.testoutput.dir}"/>
+    <pathelement location="${sfsdos_new.output.dir}"/>
+    <path refid="library.commons-lang3-3.8.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.sfsdos_new">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.sfsdos_new">
+    <patternset refid="excluded.from.module.sfsdos_new"/>
+  </patternset>
+  
+  <path id="sfsdos_new.module.sourcepath">
+    <dirset dir="${module.sfsdos_new.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.sfsdos_new" depends="compile.module.sfsdos_new.production,compile.module.sfsdos_new.tests" description="Compile module SFSDos_New"/>
+  
+  <target name="compile.module.sfsdos_new.production" depends="register.custom.compilers" description="Compile module SFSDos_New; production classes">
+    <mkdir dir="${sfsdos_new.output.dir}"/>
+    <javac2 destdir="${sfsdos_new.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.sfsdos_new}/javac">
+      <compilerarg line="${compiler.args.sfsdos_new}"/>
+      <bootclasspath refid="sfsdos_new.module.bootclasspath"/>
+      <classpath refid="sfsdos_new.module.production.classpath"/>
+      <src refid="sfsdos_new.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.sfsdos_new"/>
+    </javac2>
+    
+    <copy todir="${sfsdos_new.output.dir}">
+      <fileset dir="${module.sfsdos_new.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.sfsdos_new.tests" depends="register.custom.compilers,compile.module.sfsdos_new.production" description="compile module SFSDos_New; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.sfsdos_new" description="cleanup module">
+    <delete dir="${sfsdos_new.output.dir}"/>
+    <delete dir="${sfsdos_new.testoutput.dir}"/>
+  </target>
+</project>
